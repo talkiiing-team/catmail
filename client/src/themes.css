@@ -1,0 +1,41 @@
+:root {
+
+}
+
+.cats-theme {
+    --background_page: #b4748d;
+    --header_background: #ffc6d5;
+    --button_primary_background: #b33b5b;
+    --background_content:
+        linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,.8)),
+        url(https://static.vecteezy.com/system/resources/thumbnails/003/423/841/small/cute-cat-cartoon-doodle-seamless-pattern-background-wallpaper-vector.jpg);
+    --accent: #b33b5b;
+}
+
+.dogs-theme {
+    --background_content:
+    linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,.8)),
+        url(https://thumbs.dreamstime.com/b/green-doggy-tile-pattern-repeat-background-dog-paw-prints-puppy-bone-hearts-seamless-repeats-69675878.jpg);
+    --background_page: #456251; 
+    --header_background: #a8e3c1;
+    --button_primary_background: #41a169;
+    --accent: #41a169;
+}
+
+.dark-theme {
+    --background_content: #222;
+    --background_page: #111;
+    --color-primary-text: #fff;
+    --header_background: #222;
+    --header_text: #fff;
+}
+
+.contrast-theme {
+    --background_content: #111;
+    --background_page: #000;
+    --header_background: #000;
+    --header_text: #FFF;
+    --color-primary-text: #FFF;
+    --button_primary_background: #FFF;
+    --button_primary_foreground: #000;
+}
