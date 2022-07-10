@@ -17,12 +17,19 @@ import { MailBox } from "./components/MailBox";
 import { Icon28AddOutline } from "@vkontakte/icons";
 import { UploadForm } from "./components/UploadForm";
 import { useRecoilState } from "recoil";
-import { messages } from "./state/messages";
+import {
+  currentSkip,
+  currentTotal,
+  MAX_ON_PAGE,
+  messages,
+} from "./state/messages";
 import { themeStore } from "./state/theme";
 
 function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [messagesState, setMessagesState] = useRecoilState(messages);
+  const [skip, setSkip] = useRecoilState(currentSkip);
+  const [total, setTotal] = useRecoilState(currentTotal);
 
   const [theme, setTheme] = useRecoilState(themeStore);
 
@@ -40,16 +47,31 @@ function App() {
         ? "contrast-theme"
         : "";
 
-    document.querySelector("html").className = className;
+    document.querySelector("html")!.className = className;
   }, [theme]);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch("http://localhost:9000/messages").then((res) =>
-        res.json()
-      );
+    const savedTheme = localStorage.getItem("theme") ?? "cats";
 
-      setMessagesState(res.data);
+    setTheme(savedTheme);
+
+    localStorage.setItem("theme", savedTheme);
+    (async () => {
+      try {
+        const res = await fetch(
+          import.meta.env.PROD
+            ? "https://catmailback.s.ix3.space/messages?limit=" + MAX_ON_PAGE
+            : "http://localhost:7890/messages?limit=" + MAX_ON_PAGE
+        ).then((res) => res.json());
+
+        console.log(res);
+
+        setMessagesState(res.data);
+        setSkip(res.data.length);
+        setTotal(res.total);
+      } catch (e) {
+        console.log(e);
+      }
     })();
   }, []);
 

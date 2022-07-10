@@ -12,3 +12,18 @@ export const checkedMessages = atom<number[]>({
   key: "checkedMessages",
   default: [],
 });
+
+export const currentSkip = atom<number>({
+  key: "currentSkip",
+  default: 0,
+});
+
+export const currentTotal = atom<number>({
+  key: "currentTotal",
+  default: 0,
+});
+
+export const isLoading = atom<boolean>({
+  key: "isLoading",
+  default: false,
+});

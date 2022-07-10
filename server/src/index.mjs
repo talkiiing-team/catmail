@@ -10,6 +10,6 @@ app.use(express.json());
 
 app.use("/messages", messagesRouter);
 
-app.listen(9000, () => {
-  console.log("Listening on http://localhost:9000/");
+app.listen(7890, () => {
+  console.log("Listening on http://localhost:7890/");
 });

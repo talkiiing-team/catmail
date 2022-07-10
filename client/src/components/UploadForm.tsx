@@ -18,13 +18,18 @@ export const UploadForm = () => {
 
       if (file) {
         data.append("file", file);
-        const res = await fetch("http://localhost:9000/messages", {
-          method: "POST",
-          body: data,
-        }).then((v) => v.json());
+        const res = await fetch(
+          import.meta.env.PROD
+            ? "https://catmailback.s.ix3.space/messages"
+            : "http://localhost:7890/messages",
+          {
+            method: "POST",
+            body: data,
+          }
+        ).then((v) => v.json());
         console.log(res);
 
-        setMessages((v) => [...v, ...res]);
+        setMessages((v) => [...v, ...res].slice(0, 20));
       }
     }
   };

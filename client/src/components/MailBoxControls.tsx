@@ -9,29 +9,38 @@ export const MailBoxControls = () => {
   const [theme, setTheme] = useRecoilState(themeStore);
 
   const patch = async (read: boolean) => {
-    const res = await fetch("http://localhost:9000/messages", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        in: checked,
-        do: {
-          read,
-        },
-      }),
-    }).then((res) => res.json());
-
-    setMessagesState((arr) =>
-      arr.map((v) => {
-        if (checked.includes(v.id)) {
-          const correspondingReturned = res.find((t) => t.id === v.id);
-          return correspondingReturned!;
+    try {
+      const res = await fetch(
+        import.meta.env.PROD
+          ? "https://catmailback.s.ix3.space/messages"
+          : "http://localhost:7890/messages",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            in: checked,
+            do: {
+              read,
+            },
+          }),
         }
+      ).then((res) => res.json());
 
-        return v;
-      })
-    );
+      setMessagesState((arr) =>
+        arr.map((v) => {
+          if (checked.includes(v.id)) {
+            const correspondingReturned = res.find((t) => t.id === v.id);
+            return correspondingReturned!;
+          }
+
+          return v;
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
 
     setChecked([]);
   };
@@ -47,18 +56,23 @@ export const MailBoxControls = () => {
   };
 
   const readAll = async () => {
-    const res = await fetch("http://localhost:9000/messages", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        in: "*",
-        do: {
-          read: true,
+    const res = await fetch(
+      import.meta.env.PROD
+        ? "https://catmailback.s.ix3.space/messages"
+        : "http://localhost:7890/messages",
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    }).then((res) => res.json());
+        body: JSON.stringify({
+          in: "*",
+          do: {
+            read: true,
+          },
+        }),
+      }
+    ).then((res) => res.json());
 
     setMessagesState((arr) => arr.map((v) => ({ ...v, read: true })));
 
@@ -84,9 +98,10 @@ export const MailBoxControls = () => {
 
       <NativeSelect
         onChange={(e) => {
-          console.log(e);
           setTheme(e.target.value);
+          localStorage.setItem("theme", e.target.value);
         }}
+        value={theme}
       >
         <option value="light">Светлая</option>
         <option value="dark">Темная</option>

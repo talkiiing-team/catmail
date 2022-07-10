@@ -11,9 +11,11 @@
     "@heroicons/react": "^1.0.6",
     "@vkontakte/icons": "^1.176.0",
     "@vkontakte/vkui": "^4.33.3",
+    "lodash.debounce": "^4.0.8",
     "luxon": "^2.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-use": "^17.4.0",
     "recoil": "^0.7.4",
     "vkui": "^1.1.1"
   },
